@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curriculum Vitae — Kamin Duangmala</title>
+    <style>
+        /* ============================================================
+           DARK MODERN CV — TEAL ACCENT
+           Background: #191919   Accent: #008080
+           ============================================================ */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        @font-face {
+            font-family: 'CustomEnglish';
+            src: url('Font/Font English.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'CustomThai';
+            src: url('Font/Font Thai.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        :root {
+            --bg:       #191919;
+            --accent:   #008080;
+            --accent-light: #1a3a3a;
+            --text:     #d4d4d4;
+            --text-dim: #888888;
+            --white:    #ffffff;
+            --font:     'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            font-family: var(--font);
+            background: #0d0d0d;
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+            line-height: 1.6;
+            overflow-x: hidden;
+            perspective: 1800px;
+        }
+
+        /* ---- LANGUAGE MODAL ---- */
+        .lang-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(13, 13, 13, 0.95);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        .lang-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .lang-modal {
+            background: var(--bg);
+            padding: 40px;
+            border-radius: 8px;
+            border: 1px solid var(--accent);
+            text-align: center;
+            box-shadow: 0 0 40px rgba(0, 128, 128, 0.2);
+            max-width: 500px;
+            width: 90%;
+        }
+        .lang-modal h2 {
+            color: var(--white);
+            font-weight: 300;
+            font-size: 1.4rem;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+        .lang-options {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        .lang-btn {
+            padding: 12px 30px;
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            font-family: var(--font);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+        .lang-btn:hover {
+            background: var(--accent);
+            color: var(--white);
+            box-shadow: 0 0 15px var(--accent);
+        }
+
+        /* ---- radial glow behind page ---- */
+        .glow-bg {
+            position: fixed;
+            top: 50%; left: 50%;
+            width: 900px;
+            height: 900px;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(0,128,128,0.10) 0%, rgba(0,128,128,0.03) 35%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
+            animation: glowPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+            50%      { opacity: 1;   transform: translate(-50%, -50%) scale(1.08); }
+        }
+
+        /* ---- animated bg canvas ---- */
+        #bgCanvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .page {
+            --shx: 0px;
+            --shy: 0px;
+            --sheen-x: 50%;
+            --sheen-y: 50%;
+            position: relative;
+            z-index: 1;
+            background: var(--bg);
+            width: 100%;
+            max-width: 800px;
+            min-height: 600px;
+            padding: 60px 80px 60px 60px;
+            opacity: 0;
+            transform: translateY(20px) rotateX(0deg) rotateY(0deg);
+            transition: opacity 0.8s ease;
+            box-shadow:
+                var(--shx) var(--shy) 50px rgba(0, 0, 0, 0.55),
+                0 0 60px rgba(0, 128, 128, 0.12),
+                0 0 140px rgba(0, 128, 128, 0.05);
+            will-change: transform, box-shadow;
+            border-radius: 2px;
+        }
+
+        .page-sheen {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 999;
+            pointer-events: none;
+            border-radius: 2px;
+            background: radial-gradient(
+                ellipse at var(--sheen-x) var(--sheen-y),
+                rgba(255, 255, 255, 0.06) 0%,
+                rgba(255, 255, 255, 0.02) 30%,
+                transparent 60%
+            );
+            transition: opacity 0.8s ease;
+        }
+
+        .page.visible {
+            opacity: 1;
+            transform: translateY(0) rotateX(0deg) rotateY(0deg);
+        }
+
+        .page::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 6px;
+            background: var(--accent);
+        }
+
+        .page::after {
+            content: '';
+            position: absolute;
+            top: 0; right: 0;
+            width: 4px;
+            height: 65%;
+            background: var(--accent);
+            animation: stripeGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes stripeGlow {
+            0%, 100% { opacity: 0.6; }
+            50%      { opacity: 1; }
+        }
+
+        .content {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+        }
+
+        .left-label {
+            flex-shrink: 0;
+            width: 120px;
+            padding-top: 4px;
+        }
+
+        .left-label .section-tag {
+            font-size: .68rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 28px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            user-select: none;
+        }
+
+        .left-label .section-tag:active {
+            transform: scale(0.92);
+        }
+
+        .left-label .section-tag.active {
+            color: var(--white);
+            transform: translateX(8px);
+        }
+
+        .photo-link {
+            display: block;
+            text-decoration: none;
+        }
+        .photo-link:hover {
+            color: var(--white) !important;
+            transform: translateX(8px);
+        }
+
+        .right-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        .name-block h1 {
+            font-family: 'CustomEnglish', 'CustomThai', var(--font);
+            font-size: 2.6rem;
+            font-weight: 300;
+            color: var(--white);
+            letter-spacing: 2px;
+            line-height: 1.1;
+        }
+
+        .name-block .title {
+            font-size: .9rem;
+            color: var(--accent);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-top: 6px;
+            font-weight: 500;
+        }
+
+        .name-block .contact-row {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+            font-size: .78rem;
+            color: var(--text-dim);
+        }
+
+        .contact-row span { white-space: nowrap; }
+
+        .social-row {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .social-link {
+            font-size: .72rem;
+            color: var(--accent);
+            text-decoration: none;
+            padding: 4px 10px;
+            border: 1px solid var(--accent);
+            border-radius: 2px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .social-link:hover {
+            background: var(--accent);
+            color: var(--bg);
+            transform: translateY(-2px);
+        }
+        .social-link svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+        }
+
+        .section {
+            opacity: 0;
+            display: none;
+            transform: translateY(15px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .section.visible {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            animation: sectionEntrance 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+        @keyframes sectionEntrance {
+            0% { opacity: 0; transform: translateY(20px) scale(0.98); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .section h3 {
+            font-size: .72rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--accent);
+            margin-bottom: 10px;
+            font-weight: 600;
+            border-left: 3px solid var(--accent);
+            padding-left: 12px;
+        }
+        .section p {
+            font-size: .85rem;
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        .entry { margin-bottom: 18px; }
+        .entry .entry-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .entry .role {
+            font-weight: 600;
+            font-size: .9rem;
+            color: var(--white);
+        }
+        .entry .company {
+            font-size: .82rem;
+            color: var(--text);
+        }
+        .entry .date {
+            font-size: .75rem;
+            color: var(--text-dim);
+            white-space: nowrap;
+        }
+        .entry ul {
+            margin-top: 6px;
+            padding-left: 18px;
+            font-size: .8rem;
+            color: var(--text-dim);
+        }
+        .entry li { margin-bottom: 3px; }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .tag {
+            font-size: .72rem;
+            padding: 4px 14px;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            border-radius: 2px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.25s ease;
+            cursor: default;
+        }
+        .tag:hover {
+            background: var(--accent);
+            color: var(--bg);
+            transform: translateY(-2px);
+        }
+
+        .edu-logo {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 12px;
+            vertical-align: middle;
+            border: 1px solid var(--accent);
+            transition: transform 0.3s ease;
+        }
+        .entry:hover .edu-logo {
+            transform: scale(1.1);
+        }
+
+        @media print {
+            body { background: none; padding: 0; }
+            .page { box-shadow: none; max-width: 100%; }
+        }
+        @media (max-width: 640px) {
+            .content { flex-direction: column; gap: 20px; }
+            .page { padding: 40px 28px; }
+            .left-label { width: auto; }
+            .name-block h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="lang-overlay" id="langOverlay">
+    <div class="lang-modal">
+        <h2>Please select your preferred language<br><span style="font-size: 0.9rem; font-weight: 300; opacity: 0.8;">กรุณาเลือกภาษาที่ต้องการ</span></h2>
+        <div class="lang-options">
+            <button class="lang-btn" onclick="setLanguage('en')">English</button>
+            <button class="lang-btn" onclick="setLanguage('th')">ภาษาไทย</button>
+        </div>
+    </div>
+</div>
+
+<canvas id="bgCanvas"></canvas>
+<div class="glow-bg"></div>
+
+<div class="page">
+    <div class="page-sheen"></div>
+
+    <div class="content">
+        <div class="left-label">
+            <div class="section-tag active" data-target="about" data-i18n="nav_about">About</div>
+            <div class="section-tag" data-target="experience" data-i18n="nav_experience">Experience</div>
+            <div class="section-tag" data-target="education" data-i18n="nav_education">Education</div>
+            <div class="section-tag" data-target="skills" data-i18n="nav_skills">Skills</div>
+            <a href="https://www.facebook.com/media/set/?set=a.2204627816772101&type=3" target="_blank" rel="noopener" class="section-tag photo-link" data-i18n="nav_photo">Photo</a>
+        </div>
+
+        <div class="right-content">
+            <div class="name-block">
+                <h1 data-i18n="name">Kamin<br>Duangmala</h1>
+                <p class="title" data-i18n="title">AI Specialist & Creative Designer</p>
+                <div class="contact-row">
+                    <span>kaminsunta@gmail.com</span>
+                    <span>legacysaga000@gmail.com</span>
+                    <span>096-283-0062</span>
+                    <span>Thailand, Udon Thani</span>
+                </div>
+                <div class="social-row">
+                    <a href="https://www.youtube.com/@kazamakaden" target="_blank" rel="noopener" class="social-link">
+                        <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                        Kazamakaden El KA
+                    </a>
+                    <a href="https://www.facebook.com/kaminsunta.sunta" target="_blank" rel="noopener" class="social-link">
+                        <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                        Kamin Sunta
+                    </a>
+                    <a href="https://www.youtube.com/@EXELegacySaga" target="_blank" rel="noopener" class="social-link">
+                        <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                        EXE Legacy Saga
+                    </a>
+                    <a href="https://www.facebook.com/profile.php?id=61579110687574&locale=th_TH" target="_blank" rel="noopener" class="social-link">
+                        <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                        Legacy Saga
+                    </a>
+                </div>
+            </div>
+
+            <!-- ABOUT -->
+            <div class="section visible" id="about">
+                <h3 data-i18n="about_h">About Me</h3>
+                <p data-i18n="about_p">
+                    Passionate AI user, graphic designer, and photographer with a strong
+                    interest in website design and creative editing. Dedicated to bridging
+                    the gap between technology and art.
+                </p>
+                <p style="font-size: .8rem; color: var(--text-dim); margin-top: 8px;" data-i18n="about_address">
+                    Address: Dog2boy Kennel 19 M.5 Soi Pattana, Rob Muang Rd., Ban Lueam, Mueang Udon Thani, Udon Thani 41000
+                </p>
+                <p style="font-size: .8rem; color: var(--accent); margin-top: 4px;" data-i18n="about_mbti">
+                    MBTI: INTP 9w8 — Born Gen Z with Gen X mindset, shaped by my father
+                </p>
+            </div>
+
+            <!-- EXPERIENCE -->
+            <div class="section" id="experience">
+                <h3 data-i18n="exp_h">Experience</h3>
+                <div class="entry">
+                    <div class="entry-row">
+                        <span style="display: flex; align-items: center;">
+                            <img src="Picture logo/อวท..jpg" class="edu-logo" alt="Logo">
+                            <span class="role" data-i18n="exp5_role">Student, AVT Secretary</span>
+                        </span>
+                        <span class="date" data-i18n="exp5_date">Present</span>
+                    </div>
+                    <ul data-i18n="exp5_list">
+                        <li>Meeting preparation: Coordinated committee appointments, notified members of meeting agendas in advance</li>
+                        <li>Meeting minutes: Summarized key points, meeting resolutions, and task assignments accurately and formally each session</li>
+                        <li>Document management: Created, compiled, and archived incoming/outgoing documents, official correspondence, and project proposals systematically for easy retrieval</li>
+                    </ul>
+                </div>
+                <div class="entry">
+                    <div class="entry-row">
+                        <span style="display: flex; align-items: center;">
+                            <img src="Picture logo/Dog2boy Kennel.png" class="edu-logo" alt="Logo">
+                            <span class="role" data-i18n="exp4_role">Assistant</span>
+                            <span class="company" data-i18n="exp4_comp"> — Dog2boy Kennel (Home Business)</span>
+                        </span>
+                        <span class="date" data-i18n="exp4_date">10 years - Present</span>
+                    </div>
+                    <ul data-i18n="exp4_list">
+                        <li>Client Relations: Practiced updating photos, videos, and well-being reports for dog owners and interested parties with sincerity and care</li>
+                        <li>Ultimate responsibility: This job has no days off for attentiveness — dogs need 24/7 care. Working here shaped me into a highly responsible, punctual person with a gentle yet strong problem-solving mindset</li>
+                    </ul>
+                </div>
+                <div class="entry">
+                    <div class="entry-row">
+                        <span style="display: flex; align-items: center;">
+                            <img src="Picture logo/Central Advertising.png" class="edu-logo" alt="Logo">
+                            <span class="role" data-i18n="exp3_role">Intern</span>
+                            <span class="company" data-i18n="exp3_comp"> — Central Advertising</span>
+                        </span>
+                        <span class="date" data-i18n="exp3_date">3 months</span>
+                    </div>
+                    <ul data-i18n="exp3_list">
+                        <li>Vinyl banner</li>
+                    </ul>
+                </div>
+                <div class="entry">
+                    <div class="entry-row">
+                        <span style="display: flex; align-items: center;">
+                            <img src="Picture logo/วิทยาลัยเทคนิคอุดรธานี.png" class="edu-logo" alt="Logo">
+                            <span class="role" data-i18n="exp_role">Photographer</span>
+                        </span>
+                        <span class="date" data-i18n="exp_date">2 years</span>
+                    </div>
+                    <ul data-i18n="exp_list">
+                        <li>Professional event photography and documentation</li>
+                        <li>Technical image editing and processing</li>
+                    </ul>
+                </div>
+                <div class="entry">
+                    <div class="entry-row">
+                        <span style="display: flex; align-items: center;">
+                            <img src="Picture logo/วิทยาลัยเทคนิคอุดรธานี.png" class="edu-logo" alt="Logo">
+                            <span class="role" data-i18n="exp2_role">Traffic Volunteer and Safety Project</span>
+                        </span>
+                        <span class="date" data-i18n="exp2_date">2 years</span>
+                    </div>
+                    <ul data-i18n="exp2_list">
+                        <li>Patience & sacrifice: Had to wake up early for duty before school started, or stand in the sun and wind during rush hour after school — it cultivated patience and a strong awareness of public safety</li>
+                        <li>Safety awareness: More than just directing traffic — we became advocates campaigning for 100% helmet use, stopping for pedestrians at crosswalks, and respecting traffic rules within the school</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- EDUCATION -->
+            <div class="section" id="education">
+                <h3 data-i18n="edu_h">Education</h3>
+                <div class="entry">
+                    <div class="entry-row">
+                        <span style="display: flex; align-items: center;">
+                            <img src="Picture logo/วิทยาลัยเทคนิคอุดรธานี.png" class="edu-logo" alt="Logo">
+                            <span class="role" data-i18n="edu_school_1">วิทยาลัยเทคนิคอุดรธานี</span>
+                        </span>
+                        <span class="date" data-i18n="edu_date_1">2565-Present</span>
+                    </div>
+                    <ul style="list-style: none; padding-left: 0;" data-i18n="edu_details_1">
+                        <li><strong data-i18n="pvs">ปวส:</strong> อุตสาหกรรมดิจิทัลและเทคโนโลยีสารสนเทศ (2568-Present)</li>
+                        <li><strong data-i18n="pvc">ปวช:</strong> เทคโนโลยีสารสนเทศและการสื่อสาร (2565-2568)</li>
+                    </ul>
+                </div>
+                <div class="entry">
+                    <div class="entry-row">
+                        <span style="display: flex; align-items: center;">
+                            <img src="Picture logo/โรงเรียนเทศบาล 6 อุดรธานี.png" class="edu-logo" alt="Logo">
+                            <span class="role" data-i18n="edu_school_2">โรงเรียนเทศบาล 6 อุดรธานี</span>
+                        </span>
+                        <span class="date" data-i18n="edu_date_2">2562-2565</span>
+                    </div>
+                    <p style="font-size: .8rem; color: var(--text-dim); margin-top: 4px;" data-i18n="edu_desc_2">ห้องเรียนโปรแกรมวิทยาศาสตร์ – คณิตศาสตร์ (Sci-Math)</p>
+                </div>
+                <div class="entry">
+                    <div class="entry-row">
+                        <span style="display: flex; align-items: center;">
+                            <img src="Picture logo/โรงเรียนอุดรคริสเตียนวิทยา.png" class="edu-logo" alt="Logo">
+                            <span class="role" data-i18n="edu_school_3">โรงเรียนอุดรคริสเตียนวิทยา</span>
+                        </span>
+                        <span class="date" data-i18n="edu_date_3">2555-2562</span >
+                    </div>
+                    <p style="font-size: .8rem; color: var(--text-dim); margin-top: 4px;" data-i18n="edu_desc_3">Intensive English Program (IEP)</p>
+                </div>
+                <div class="entry">
+                    <div class="entry-row">
+                        <span style="display: flex; align-items: center;">
+                            <img src="Picture logo/โรงเรียน กระจ่างวิทย์.jpg" class="edu-logo" alt="Logo">
+                            <span class="role" data-i18n="edu_school_4">โรงเรียน กระจ่างวิทย์ อุดรธานี</span>
+                        </span>
+                        <span class="date" data-i18n="edu_date_4">2550-2555</span>
+                    </div>
+                    <p style="font-size: .8rem; color: var(--text-dim); margin-top: 4px;" data-i18n="edu_desc_4">Regular classroom</p>
+                </div>
+            </div>
+
+            <!-- SKILLS -->
+            <div class="section" id="skills">
+                <h3 data-i18n="skill_hard">Hard Skills</h3>
+                <p style="font-size: .7rem; color: var(--text-dim); margin-bottom: 8px;" data-i18n="skill_note">general knowledge / research / prior experience</p>
+                <div class="tags">
+                    <span class="tag">Photoshop</span>
+                    <span class="tag">Adobe After Effects</span>
+                    <span class="tag">Adobe Illustrator</span>
+                    <span class="tag">Adobe Animate</span>
+                    <span class="tag" data-i18n="hs_mf">Mutual Fund</span>
+                    <span class="tag" data-i18n="hs_mkt">Marketing</span>
+                    <span class="tag" data-i18n="hs_biz">Business</span>
+                    <span class="tag" data-i18n="hs_ai">AI User</span>
+                    <span class="tag" data-i18n="hs_broker">Broker</span>
+                    <span class="tag" data-i18n="hs_gd">Graphic Design</span>
+                    <span class="tag" data-i18n="hs_photo">Photography</span>
+                </div>
+                <h3 style="margin-top: 20px;" data-i18n="skill_soft">Soft Skills</h3>
+                <div class="tags">
+                    <span class="tag" data-i18n="ss_eq">High EQ</span>
+                    <span class="tag" data-i18n="ss_cheerful">Always Cheerful</span>
+                    <span class="tag" data-i18n="ss_focus">Focused</span>
+                    <span class="tag" data-i18n="ss_stable">Stable & Calm</span>
+                    <span class="tag" data-i18n="ss_noego">No Ego</span>
+                    <span class="tag" data-i18n="ss_questions">Asks Questions</span>
+                    <span class="tag" data-i18n="ss_respect">Respectful</span>
+                    <span class="tag" data-i18n="ss_emotion">Emotion Control</span>
+                    <span class="tag" data-i18n="ss_quiet">Quiet & Observant</span>
+                    <span class="tag" data-i18n="ss_discipline">Self-Disciplined</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    /* ---- TRANSLATIONS ---- */
+    const i18n = {
+        en: {
+            nav_about: "About",
+            nav_experience: "Experience",
+            nav_education: "Education",
+            nav_skills: "Skills",
+            nav_photo: "Photo",
+            name: "Kamin<br>Duangmala",
+            title: "AI Specialist & Creative Designer",
+            about_h: "About Me",
+            about_p: "Passionate AI user, graphic designer, and photographer with a strong interest in website design and creative editing. Dedicated to bridging the gap between technology and art.",
+            about_address: "Address: Dog2boy Kennel 19 M.5 Soi Pattana, Rob Muang Rd., Ban Lueam, Mueang Udon Thani, Udon Thani 41000",
+            about_mbti: "MBTI: INTP 9w8 — Born Gen Z with Gen X mindset, shaped by my father",
+            exp_h: "Experience",
+            exp4_role: "Assistant",
+            exp4_comp: " — Dog2boy Kennel (Home Business)",
+            exp4_date: "10 years - Present",
+            exp4_list: `<li>Client Relations: Practiced updating photos, videos, and well-being reports for dog owners and interested parties with sincerity and care</li><li>Ultimate responsibility: This job has no days off for attentiveness — dogs need 24/7 care. Working here shaped me into a highly responsible, punctual person with a gentle yet strong problem-solving mindset</li>`,
+            exp_role: "Photographer",
+            exp_list: `<li>Professional event photography and documentation</li><li>Technical image editing and processing</li>`,
+            exp_date: "2 years",
+            exp2_role: "Traffic Volunteer and Safety Project",
+            exp2_date: "2 years",
+            exp2_list: `<li>Patience & sacrifice: Had to wake up early for duty before school started, or stand in the sun and wind during rush hour after school — it cultivated patience and a strong awareness of public safety</li><li>Safety awareness: More than just directing traffic — we became advocates campaigning for 100% helmet use, stopping for pedestrians at crosswalks, and respecting traffic rules within the school</li>`,
+            exp3_role: "Intern",
+            exp3_comp: " — Central Advertising",
+            exp3_date: "3 months",
+            exp3_list: `<li>Real-world vs game: Learned how on-screen designs differ from actual printed output — managing CMYK color modes, color accuracy, and file resolution (DPI) suitable for large-format banners</li><li>Advanced graphic skills upgrade: Practiced Adobe Photoshop under tight deadlines — drafting lines, layout composition, and bleed margin checks</li><li>Understanding production backend: Not just clicking print — witnessed large-format inkjet printers in action, learned vinyl folding techniques, eyelet punching, top/bottom pipe installation, and selecting vinyl types (opaque/translucent) based on client needs</li>`,
+            exp5_role: "Student, AVT Secretary",
+            exp5_date: "Present",
+            exp5_list: `<li>Meeting preparation: Coordinated committee appointments, notified members of meeting agendas in advance</li><li>Meeting minutes: Summarized key points, meeting resolutions, and task assignments accurately and formally each session</li><li>Document management: Created, compiled, and archived incoming/outgoing documents, official correspondence, and project proposals systematically for easy retrieval</li>`,
+            edu_h: "Education",
+            edu_school_1: "Udon Thani Technical College",
+            edu_date_1: "2565-Present",
+            pvs: "High Vocational Certificate:",
+            pvc: "Vocational Certificate:",
+            edu_details_1: `<li><strong>High Vocational Certificate:</strong> Digital Industry and Information Technology (2568-Present)</li><li><strong>Vocational Certificate:</strong> Information and Communication Technology (2565-2568)</li>`,
+            edu_school_2: "Municipal 6 School Udon Thani",
+            edu_date_2: "2562-2565",
+            edu_desc_2: "Science-Mathematics Program (Sci-Math)",
+            edu_school_3: "Udon Christian School",
+            edu_date_3: "2555-2562",
+            edu_desc_3: "Intensive English Program (IEP)",
+            edu_school_4: "Krajangwit School Udon Thani",
+            edu_date_4: "2550-2555",
+            edu_desc_4: "Regular classroom",
+            skill_hard: "Hard Skills",
+            skill_note: "general knowledge / research / prior experience",
+            skill_soft: "Soft Skills",
+            hs_mf: "Mutual Fund",
+            hs_mkt: "Marketing",
+            hs_biz: "Business",
+            hs_ai: "AI User",
+            hs_broker: "Broker",
+            hs_gd: "Graphic Design",
+            hs_photo: "Photography",
+            ss_eq: "High EQ",
+            ss_cheerful: "Always Cheerful",
+            ss_focus: "Focused",
+            ss_stable: "Stable & Calm",
+            ss_noego: "No Ego",
+            ss_questions: "Asks Questions",
+            ss_respect: "Respectful",
+            ss_emotion: "Emotion Control",
+            ss_quiet: "Quiet & Observant",
+            ss_discipline: "Self-Disciplined"
+        },
+        th: {
+            nav_about: "เกี่ยวกับฉัน",
+            nav_experience: "ประสบการณ์",
+            nav_education: "การศึกษา",
+            nav_skills: "ทักษะ",
+            nav_photo: "รูปภาพ",
+            name: "คามิน<br>ดวงมาลา",
+            title: "ผู้เชี่ยวชาญด้าน AI และนักออกแบบสร้างสรรค์",
+            about_h: "เกี่ยวกับฉัน",
+            about_p: "ผู้ใช้งาน AI ที่มีความหลงใหล, นักออกแบบกราฟิก และช่างภาพ ที่มีความสนใจอย่างยิ่งในการออกแบบเว็บไซต์และการตัดต่อสร้างสรรค์ มุ่งมั่นที่จะเชื่อมโยงเทคโนโลยีเข้ากับศิลปะ",
+            about_address: "ที่อยู่: Dog2boy Kennel 19 ม.5 ซ.พัฒนา ถ.รอบเมือง ต.บ้านเลื่อม อำเภอเมืองอุดรธานี อุดรธานี 41000",
+            about_mbti: "MBTI: INTP 9w8 — เกิด Gen Z แต่มีความคิดแบบ Gen X ที่พ่อปลูกฝัง",
+            exp_h: "ประสบการณ์",
+            exp4_role: "ผู้ช่วย",
+            exp4_comp: " — Dog2boy Kennel (ธุรกิจบ้านส่วนตัว)",
+            exp4_date: "10 ปี - ปัจจุบัน",
+            exp4_list: `<li>การดูแลลูกค้า (Client Relations): ได้ฝึกฝนการอัปเดตภาพถ่าย วิดีโอ หรือรายงานความเป็นอยู่ของเด็กๆ ให้เจ้าของหรือผู้ที่สนใจได้รับรู้ด้วยความจริงใจและใส่ใจ</li><li>ความรับผิดชอบขั้นสูงสุด: งานนี้ไม่มีวันหยุดสำหรับความใส่ใจ เพราะสุนัขต้องการการดูแลตลอด 24 ชั่วโมง การทำงานที่นี่จึงช่วยหล่อหลอมให้เราเป็นคนมีความรับผิดชอบสูง ตรงต่อเวลา และมีจิตใจที่อ่อนโยนแต่แข็งแกร่งในการแก้ปัญหา</li>`,
+            exp_role: "ช่างภาพ",
+            exp_list: `<li>ถ่ายภาพกิจกรรมและงานเอกสารระดับมืออาชีพ</li><li>การตัดต่อและประมวลผลภาพทางเทคนิค</li>`,
+            exp_date: "2 ปี",
+            exp2_role: "โครงการจิตอาสาจราจรและความปลอดภัย",
+            exp2_date: "2 ปี",
+            exp2_list: `<li>ความอดทนและเสียสละ: ต้องตื่นแต่เช้าตรู่มารับหน้าที่ก่อนโรงเรียนเข้า หรือยืนตากแดดตากลมในช่วงเวลาเร่งด่วนหลังเลิกเรียน มันช่วยขัดเกลาให้เรามีความอดทนและตระหนักถึงความปลอดภัยของส่วนรวมเป็นหลัก</li><li>การสร้างความตระหนักรู้ (Safety Awareness): ไม่ใช่แค่โบกรถ แต่เราได้เป็นกระบอกเสียงในการรณรงค์เรื่องการสวมหมวกกันน็อก 100% การหยุดรถให้คนข้ามทางม้าลาย และการเคารพกฎจราจรในสถานศึกษา</li>`,
+            exp3_role: "ฝึกงาน",
+            exp3_comp: " — Central Advertising",
+            exp3_date: "3 เดือน",
+            exp3_list: `<li>ชีวิตจริงไม่ง่ายเหมือนในโปรแกรม: ได้รู้ว่าไฟล์ที่ออกแบบในคอมพิวเตอร์กับงานที่พิมพ์ออกมาจริง ๆ มันต่างกันยังไง การตั้งค่าโหมดสี CMYK การคุมโทนสีไม่ให้เพี้ยน และการจัดการความละเอียดไฟล์ (Resolution) ให้เหมาะกับป้ายขนาดใหญ่</li><li>เซียนโปรแกรมกราฟิกขึ้นอีกสเต็ป: ได้ฝึกใช้ Adobe Photoshop แบบทำเวลาแข่งกับเดดไลน์ ทั้งการดราฟต์เส้น การจัด Layout และการเช็กระยะตัดตก (Bleed)</li><li>เข้าใจกระบวนการหลังบ้าน (Production): ไม่ใช่แค่กดสั่งพิมพ์แล้วจบ แต่ได้เห็นเครื่องพิมพ์อิงค์เจ็ทตัวใหญ่ทำงานจริง ได้รู้วิธีการพับขอบ เจาะตาไก่ ทำท่อบน-ล่าง และการเลือกประเภทผ้าใบไวนิล (แบบทึบแสง/โปร่งแสง) ให้เหมาะกับการใช้งานของลูกค้า</li>`,
+            exp5_role: "นักเรียน อวท เลขา",
+            exp5_date: "ปัจจุบัน",
+            exp5_list: `<li>จัดเตรียมการประชุม: ประสานงานนัดหมายกรรมการ แจ้งระเบียบวาระการประชุม (Agenda) ให้ทุกคนทราบล่วงหน้า</li><li>จดบันทึกรายงานการประชุม: สรุปประเด็นสำคัญ มติที่ประชุม และการมอบหมายงานในแต่ละครั้งอย่างถูกต้องและเป็นทางการ</li><li>ดูแลระบบเอกสาร: จัดทำ รวบรวม และเก็บรักษาเอกสารเข้า-ออก หนังสือราชการ รวมถึงโครงการ (Project Proposal) ต่างๆ ของ อวท. ให้เป็นหมวดหมู่ค้นหาง่าย</li>`,
+            edu_h: "การศึกษา",
+            edu_school_1: "วิทยาลัยเทคนิคอุดรธานี",
+            edu_date_1: "2565-ปัจจุบัน",
+            pvs: "ปวส:",
+            pvc: "ปวช:",
+            edu_details_1: `<li><strong>ปวส:</strong> อุตสาหกรรมดิจิทัลและเทคโนโลยีสารสนเทศ (2568-ปัจจุบัน)</li><li><strong>ปวช:</strong> เทคโนโลยีสารสนเทศและการสื่อสาร (2565-2568)</li>`,
+            edu_school_2: "โรงเรียนเทศบาล 6 อุดรธานี",
+            edu_date_2: "2562-2565",
+            edu_desc_2: "ห้องเรียนโปรแกรมวิทยาศาสตร์ – คณิตศาสตร์ (Sci-Math)",
+            edu_school_3: "โรงเรียนอุดรคริสเตียนวิทยา",
+            edu_date_3: "2555-2562",
+            edu_desc_3: "โปรแกรมภาษาอังกฤษแบบเข้มข้น (IEP)",
+            edu_school_4: "โรงเรียน กระจ่างวิทย์ อุดรธานี",
+            edu_date_4: "2550-2555",
+            edu_desc_4: "ห้องเรียนปกติ",
+            skill_hard: "ทักษะด้านเทคนิค",
+            skill_note: "ความรู้ทั่วไป / ศึกษาเอง / มีประสบการณ์",
+            skill_soft: "ทักษะด้านบุคลิกภาพ",
+            hs_mf: "กองทุนรวม",
+            hs_mkt: "การตลาด",
+            hs_biz: "ธุรกิจ",
+            hs_ai: "ผู้ใช้งาน AI",
+            hs_broker: "โบรกเกอร์",
+            hs_gd: "ออกแบบกราฟิก",
+            hs_photo: "ถ่ายภาพ",
+            ss_eq: "EQ สูง",
+            ss_cheerful: "ร่าเริงตลอดเวลา",
+            ss_focus: "โฟกัสกับงาน",
+            ss_stable: "มั่นคง สงบ",
+            ss_noego: "ไม่มีอีโก้",
+            ss_questions: "กล้าถาม",
+            ss_respect: "ให้เกียรติ",
+            ss_emotion: "ควบคุมอารมณ์",
+            ss_quiet: "เงียบ ช่างสังเกต",
+            ss_discipline: "มีวินัยในตนเอง"
+        }
+    };
+
+    window.setLanguage = function(lang) {
+        // Apply translations
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            el.innerHTML = i18n[lang][key];
+        });
+
+        // Hide modal
+        document.getElementById('langOverlay').classList.add('hidden');
+
+        // Show page
+        showPage();
+    };
+
+    /* ---- Section Navigation Logic ---- */
+    const tags = document.querySelectorAll('.section-tag');
+    const sections = document.querySelectorAll('.section');
+
+    tags.forEach(tag => {
+        tag.addEventListener('click', () => {
+            const targetId = tag.getAttribute('data-target');
+            tags.forEach(t => t.classList.remove('active'));
+            tag.classList.add('active');
+            sections.forEach(s => {
+                s.classList.remove('visible');
+                if (s.id === targetId) s.classList.add('visible');
+            });
+        });
+    });
+
+    /* ==========================================================
+       LAYERED PARTICLE SYSTEM + MOUSE PARALLAX
+       ========================================================== */
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
+    const page = document.querySelector('.page');
+
+    let w, h, animationId;
+    let mx = 0.5, my = 0.5;
+    let targetMx = 0.5, targetMy = 0.5;
+
+    const dots  = [];
+    const orbs  = [];
+    const gems  = [];
+
+    function resize() {
+        w = canvas.width  = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+    }
+
+    function createDot() {
+        return { x: Math.random() * w, y: Math.random() * h, vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.4, r: Math.random() * 1.5 + 0.5, alpha: Math.random() * 0.22 + 0.06 };
+    }
+    function createOrb() {
+        return { x: Math.random() * w, y: Math.random() * h, vx: (Math.random() - 0.5) * 0.15, vy: (Math.random() - 0.5) * 0.15, r: Math.random() * 60 + 25, alpha: Math.random() * 0.06 + 0.02, pulse: Math.random() * Math.PI * 2 };
+    }
+    function createGem() {
+        return { x: Math.random() * w, y: Math.random() * h, vx: (Math.random() - 0.5) * 0.25, vy: (Math.random() - 0.5) * 0.25, size: Math.random() * 4 + 2, alpha: Math.random() * 0.18 + 0.04, angle: Math.random() * Math.PI * 2, spin: (Math.random() - 0.5) * 0.008 };
+    }
+
+    function init() {
+        resize();
+        dots.length = 0; orbs.length = 0; gems.length = 0;
+        for (let i = 0; i < 30; i++) dots.push(createDot());
+        for (let i = 0; i < 6;  i++) orbs.push(createOrb());
+        for (let i = 0; i < 8;  i++) gems.push(createGem());
+    }
+
+    function draw(time) {
+        ctx.clearRect(0, 0, w, h);
+        mx += (targetMx - mx) * 0.04;
+        my += (targetMy - my) * 0.04;
+
+        for (let i = 0; i < orbs.length; i++) {
+            const o = orbs[i]; o.x += o.vx; o.y += o.vy;
+            if (o.x < -80) o.x = w + 80; else if (o.x > w + 80) o.x = -80;
+            if (o.y < -80) o.y = h + 80; else if (o.y > h + 80) o.y = -80;
+            const pulseAlpha = o.alpha * (0.7 + 0.3 * Math.sin(time * 0.0005 + o.pulse));
+            const grad = ctx.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.r);
+            grad.addColorStop(0, `rgba(0, 140, 140, ${pulseAlpha * 1.5})`);
+            grad.addColorStop(0.5, `rgba(0, 128, 128, ${pulseAlpha})`);
+            grad.addColorStop(1, 'rgba(0, 128, 128, 0)');
+            ctx.beginPath(); ctx.arc(o.x, o.y, o.r, 0, Math.PI * 2); ctx.fillStyle = grad; ctx.fill();
+        }
+
+        for (let i = 0; i < dots.length; i++) {
+            const p = dots[i]; p.x += p.vx; p.y += p.vy;
+            if (p.x < -10) p.x = w + 10; else if (p.x > w + 10) p.x = -10;
+            if (p.y < -10) p.y = h + 10; else if (p.y > h + 10) p.y = -10;
+            ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fillStyle = `rgba(0, 140, 140, ${p.alpha})`; ctx.fill();
+        }
+
+        const allSmall = dots.concat(gems);
+        ctx.strokeStyle = 'rgba(0, 140, 140, 0.055)';
+        ctx.lineWidth = 0.5;
+        for (let i = 0; i < allSmall.length; i++) {
+            for (let j = i + 1; j < allSmall.length; j++) {
+                const dx = allSmall[i].x - allSmall[j].x;
+                const dy = allSmall[i].y - allSmall[j].y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 170) {
+                    ctx.beginPath(); ctx.moveTo(allSmall[i].x, allSmall[i].y); ctx.lineTo(allSmall[j].x, allSmall[j].y); ctx.stroke();
+                }
+            }
+        }
+
+        for (let i = 0; i < gems.length; i++) {
+            const g = gems[i]; g.x += g.vx; g.y += g.vy; g.angle += g.spin;
+            if (g.x < -10) g.x = w + 10; else if (g.x > w + 10) g.x = -10;
+            if (g.y < -10) g.y = h + 10; else if (g.y > h + 10) g.y = -10;
+            ctx.save(); ctx.translate(g.x, g.y); ctx.rotate(g.angle);
+            ctx.beginPath(); ctx.moveTo(0, -g.size); ctx.lineTo(g.size * 0.6, 0); ctx.lineTo(0, g.size); ctx.lineTo(-g.size * 0.6, 0); ctx.closePath();
+            ctx.fillStyle = `rgba(0, 200, 200, ${g.alpha})`; ctx.fill(); ctx.restore();
+        }
+
+        if (page && page.classList.contains('visible')) {
+            const tiltX = (my - 0.5) * 30;
+            const tiltY = (mx - 0.5) * -30;
+            const shx = tiltY * -1.6;
+            const shy = tiltX * 1.6;
+            page.style.setProperty('--shx', `${shx.toFixed(1)}px`);
+            page.style.setProperty('--shy', `${shy.toFixed(1)}px`);
+            const sheenX = mx * 100;
+            const sheenY = my * 100;
+            page.style.setProperty('--sheen-x', `${sheenX.toFixed(1)}%`);
+            page.style.setProperty('--sheen-y', `${sheenY.toFixed(1)}%`);
+            page.style.transform = `translateY(0) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg)`;
+        }
+        animationId = requestAnimationFrame(draw);
+    }
+
+    document.addEventListener('mousemove', function(e) {
+        targetMx = e.clientX / window.innerWidth;
+        targetMy = e.clientY / window.innerHeight;
+    });
+
+    function showPage() {
+        page.classList.add('visible');
+    }
+
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            cancelAnimationFrame(animationId);
+            init();
+            draw(performance.now());
+        }, 150);
+    });
+
+    init();
+    draw(performance.now());
+})();
+</script>
+</body>
+</html>
