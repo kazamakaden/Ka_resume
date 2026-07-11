@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 put these in Education 
 and don't forgot make text about experiment, Education and when clike text i want it have animation to 
 
@@ -16,4 +17,24 @@ Intensive English Program(IEP)
 วันที่เข้าศึกษา :	2565-2568
 ระดับหลักสูตร :	ประกาศนียบัตรวิชาชีพชั้นสูง
 ประเภทวิชา(กรรม) :	อุตสาหกรรมดิจิทัลและเทคโนโลยีสารสนเทศ
+=======
+put these in Education 
+and don't forgot make text about experiment, Education and when clike text i want it have animation to 
+
+[logo hereโรงเรียน กระจ่างวิทย์ อุดรธานี]โรงเรียน กระจ่างวิทย์ อุดรธานี
+Regular classroom
+2550-2555
+[logo hereโรงเรียนอุดรคริสเตียนวิทยา อุดรธานี] โรงเรียนอุดรคริสเตียนวิทยา 
+Intensive English Program(IEP)
+2555-2562
+[logo hereโรงเรียนเทศบาล 6 อุดรธานี ] โรงเรียนเทศบาล 6 อุดรธานี 
+ห้องเรียนโปรแกรมวิทยาศาสตร์ – คณิตศาสตร์ (Sci-Math)
+2562-2565
+[logo here วิทยาลัยเทคนิคอุดรธานี + logo IT ] วิทยาลัยเทคนิคอุดรธานี ปวช-ปวส 
+ระดับหลักสูตร :	ประกาศนียบัตรวิชาชีพ
+ประเภทวิชา(กรรม) :	เทคโนโลยีสารสนเทศและการสื่อสาร
+วันที่เข้าศึกษา :	2565-2568
+ระดับหลักสูตร :	ประกาศนียบัตรวิชาชีพชั้นสูง
+ประเภทวิชา(กรรม) :	อุตสาหกรรมดิจิทัลและเทคโนโลยีสารสนเทศ
+>>>>>>> ffccd7d545756ada53bb32427489f9e04fa80c0e
 วันที่เข้าศึกษา :	2568-now
